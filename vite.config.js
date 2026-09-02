@@ -4,7 +4,7 @@ import { resolve } from "path";
 
 const root = import.meta.dirname;
 
-const pages = ["dashboard", "admin", "claim"];
+const pages = ["index", "admin", "claim"];
 
 export default defineConfig({
   plugins: [react()],
