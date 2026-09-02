@@ -249,258 +249,153 @@ const [
 
 
 
-  /* =========================================================
-     LOAD DASHBOARD ACCOUNT
-  ========================================================= */
-
   useEffect(() => {
 
+  let isMounted = true;
 
-    let isMounted =
-      true;
+  async function loadDashboard() {
 
+    try {
+
+      /* =========================================
+         1. CHECK AUTH SESSION
+      ========================================== */
+
+      const {
+        data: sessionData,
+        error: sessionError
+      } = await supabase.auth.getSession();
 
+      if (sessionError) {
+        throw sessionError;
+      }
 
-    async function loadDashboard() {
+      const session = sessionData?.session;
 
+      /* =========================================
+         NOT LOGGED IN
+      ========================================== */
 
-      try {
+      if (!session) {
 
+        window.location.href =
+          "https://www.runambiz.com/auth?mode=login";
 
-        /* =========================================
-           1. CHECK AUTH SESSION
-        ========================================== */
+        return;
+      }
 
-        const {
-          data: sessionData,
-          error: sessionError
-        } =
-          await supabase.auth
-            .getSession();
+      const currentUser = session.user;
 
+      if (isMounted) {
+        setUser(currentUser);
+      }
 
+      /* =========================================
+         2. LOAD PROFILE
+      ========================================== */
 
-        if (sessionError) {
+      const {
+        data: profileData,
+        error: profileError
+      } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", currentUser.id)
+        .maybeSingle();
 
-          throw sessionError;
+      if (profileError) {
+        throw profileError;
+      }
 
-        }
+      /* =========================================
+         USER HAS NOT COMPLETED ONBOARDING
 
+         onboarding.html lives on the marketing
+         site, so this needs the full origin — a
+         relative path resolves to app.runambiz.com
+         and 404s.
+      ========================================== */
 
+      if (
+        !profileData ||
+        profileData.onboarding_completed !== true
+      ) {
 
-        const session =
-          sessionData?.session;
+        window.location.replace(
+          "https://www.runambiz.com/onboarding.html"
+        );
 
+        return;
+      }
 
+      if (isMounted) {
+        setProfile(profileData);
+      }
 
-        /* =========================================
-           NOT LOGGED IN
-        ========================================== */
+      /* =========================================
+         3. LOAD BUSINESS
+      ========================================== */
 
-        if (!session) {
+      const requestedStoreId =
+        new URLSearchParams(
+          window.location.search
+        ).get("store");
 
+      let businessQuery = supabase
+        .from("businesses")
+        .select("*")
+        .eq("owner_id", currentUser.id);
 
-        window.location.href = "https://www.runambiz.com/auth?mode=login";
+      if (requestedStoreId) {
+        businessQuery = businessQuery.eq("id", requestedStoreId);
+      } else {
+        businessQuery = businessQuery.eq("is_outreach", false);
+      }
 
+      const {
+        data: businessRows,
+        error: businessError
+      } = await businessQuery
+        .order("created_at", { ascending: true })
+        .limit(1);
 
-          return;
+      if (businessError) {
+        throw businessError;
+      }
 
-        }
+      const businessData = (businessRows || [])[0] || null;
 
+      /* =========================================
+         USER HAS NO BUSINESS YET
+      ========================================== */
 
+      if (!businessData) {
 
-        const currentUser =
-          session.user;
+        /*
+          A missing ?store means the id was wrong or
+          somebody else owns it. Send them to their
+          own dashboard rather than onboarding.
 
-
-
-        if (isMounted) {
-
-          setUser(
-            currentUser
-          );
-
-        }
-
-
-
-
-        /* =========================================
-           2. LOAD PROFILE
-        ========================================== */
-
-        const {
-          data: profileData,
-          error: profileError
-        } =
-          await supabase
-            .from("profiles")
-            .select("*")
-            .eq(
-              "id",
-              currentUser.id
-            )
-            .maybeSingle();
-
-
-
-        if (profileError) {
-
-          throw profileError;
-
-        }
-
-
-
-        /* =========================================
-           USER HAS NOT COMPLETED ONBOARDING
-        ========================================== */
-
-        if (
-          !profileData ||
-          profileData.onboarding_completed !== true
-        ) {
-
-
-          window.location.replace(
-            "onboarding.html"
-          );
-
-
-          return;
-
-        }
-
-
-
-        if (isMounted) {
-
-          setProfile(
-            profileData
-          );
-
-        }
-
-
-        /* =========================================
-           3. LOAD BUSINESS
-
-           ?store=<id> opens a specific business you
-           own. That is how an outreach store is
-           edited with the real dashboard instead of
-           a stripped-down admin form.
-
-           Without the parameter we load your own
-           business and deliberately skip outreach
-           stores, so they never hijack your normal
-           dashboard.
-        ========================================== */
-
-        const requestedStoreId =
-          new URLSearchParams(
-            window.location.search
-          ).get("store");
-
-
-        let businessQuery =
-          supabase
-            .from("businesses")
-            .select("*")
-            .eq(
-              "owner_id",
-              currentUser.id
-            );
-
+          The dashboard is this app's root now, so
+          "/" — dashboard.html no longer exists.
+        */
 
         if (requestedStoreId) {
-
-          businessQuery =
-            businessQuery.eq(
-              "id",
-              requestedStoreId
-            );
-
-        } else {
-
-          businessQuery =
-            businessQuery.eq(
-              "is_outreach",
-              false
-            );
-
-        }
-
-
-        const {
-          data: businessRows,
-          error: businessError
-        } =
-          await businessQuery
-            .order(
-              "created_at",
-              { ascending: true }
-            )
-            .limit(1);
-
-
-
-        if (businessError) {
-
-          throw businessError;
-
-        }
-
-
-        const businessData =
-          (businessRows || [])[0] ||
-          null;
-
-
-
-        /* =========================================
-           USER HAS NO BUSINESS YET
-        ========================================== */
-
-        if (!businessData) {
-
-
-          /*
-            A missing ?store means the id was wrong or
-            somebody else owns it. Send them to their
-            own dashboard rather than onboarding.
-          */
-
-          if (requestedStoreId) {
-
-            window.location.replace(
-              "dashboard.html"
-            );
-
-            return;
-
-          }
-
-
-          window.location.replace(
-            "onboarding.html"
-          );
-
-
+          window.location.replace("/");
           return;
-
         }
 
+        window.location.replace(
+          "https://www.runambiz.com/onboarding.html"
+        );
 
- if (
-  isMounted
-) {
+        return;
+      }
 
-  setBusiness(
-    businessData
-  );
-
-}
-
+      if (isMounted) {
+        setBusiness(businessData);
+      }
+      
 
 /* =========================================
    LOAD SUBSCRIPTION
