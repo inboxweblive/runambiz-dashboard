@@ -917,76 +917,48 @@ useEffect(
      LOG OUT
   ========================================================= */
 
- async function handleLogout() {
+async function handleLogout() {
 
+  const confirmed = window.confirm(
+    "Are you sure you want to sign out of Runambiz?"
+  );
 
-  const confirmed =
-    window.confirm(
-      "Are you sure you want to sign out of Runambiz?"
-    );
-
-
-  if (
-    !confirmed
-  ) {
-
+  if (!confirmed) {
     return;
-
   }
-
 
   try {
 
+    const { error: logoutError } = await supabase.auth.signOut();
 
-    const {
-      error:
-        logoutError
-    } =
-      await supabase
-        .auth
-        .signOut();
-
-
-    if (
-      logoutError
-    ) {
-
+    if (logoutError) {
       throw logoutError;
-
     }
 
+  } catch (err) {
 
-    window.location.replace(
-      "index.html"
-    );
+    /*
+      Don't strand them on a signed-out-looking dashboard.
 
+      signOut() clears the local cookie before it calls the
+      server, so by the time we're here the session is gone
+      from this browser either way — a network failure or an
+      already-expired token only means the refresh token
+      wasn't revoked server-side. Log it and leave anyway.
+    */
 
-  } catch (
-    err
-  ) {
-
-
-    console.error(
-      "Logout error:",
-      err
-    );
-
-
-    setError(
-
-      err?.message ||
-
-      "We couldn't sign you out. Please try again."
-
-    );
-
+    console.warn("Sign-out request failed:", err);
 
   }
 
+  /*
+    index.html is on the marketing site now. A relative path
+    resolves to app.runambiz.com and 404s.
+  */
+
+  window.location.replace("https://www.runambiz.com/");
 
 }
-
-
   /* =========================================================
      CHANGE DASHBOARD PAGE
   ========================================================= */
