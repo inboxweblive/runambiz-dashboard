@@ -300,9 +300,7 @@ const [
         if (!session) {
 
 
-          window.location.replace(
-            "auth.html?mode=login"
-          );
+        window.location.href = "https://www.runambiz.com/auth?mode=login";
 
 
           return;
