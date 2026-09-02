@@ -9,6 +9,7 @@ const pages = ["index", "admin", "claim", "store"];
 export default defineConfig({
   plugins: [react()],
   build: {
+    
     rollupOptions: {
       input: Object.fromEntries(
         pages.map((page) => [page, resolve(root, `${page}.html`)])
