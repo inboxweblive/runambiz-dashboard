@@ -8422,7 +8422,7 @@ html[data-theme="dark"]
 
   font: inherit;
 
-  font-size: 9px;
+  font-size: 16px;
 }
 
 
@@ -9737,7 +9737,7 @@ html[data-theme="dark"]
   background: var(--surface-2);
   color: var(--ink);
   font: inherit;
-  font-size: 8.5px;
+  font-size: 16px;
 }
 
 .store-field input[type="text"],
@@ -11350,7 +11350,7 @@ html[data-theme="dark"]
     var(--ink);
 
   font-size:
-    10px;
+    12px;
 }
 
 
@@ -11365,7 +11365,7 @@ html[data-theme="dark"]
     var(--muted);
 
   font-size:
-    8px;
+    9px;
 
   line-height:
     1.45;
