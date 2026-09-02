@@ -181,6 +181,24 @@ html[data-theme="dark"]
 
 }
 
+/* Top bar — the hamburger/search/avatar row */
+.dashboard-header {
+  padding-top: calc(12px + env(safe-area-inset-top));
+}
+
+/* Bottom tab bar — clears the home indicator */
+.bottom-nav {
+  padding-bottom: calc(8px + env(safe-area-inset-bottom));
+}
+
+/* Scroll container, so the last card isn't hidden behind the tabs */
+.dashboard-main {
+  padding-bottom: calc(72px + env(safe-area-inset-bottom));
+}.dashboard-header {
+  padding-top: calc(12px + env(safe-area-inset-top));
+}
+
+
 /* =========================================================
    MOBILE BOTTOM NAVIGATION
 ========================================================= */
@@ -20768,6 +20786,276 @@ svg:last-child {
 
   .metric-grid {
     grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* =========================================================
+   RUNAMBIZ — MOBILE FIXES
+   Append to the very END of dashboard.css so these win
+   on specificity ties.
+========================================================= */
+
+
+/* =========================================================
+   1. SAFE AREA — stop content sliding under the status bar
+
+   The topbar is sticky at top:0, so padding-top on it fills
+   the notch area while it stays pinned.
+========================================================= */
+
+.dashboard-topbar {
+  height: auto;
+  min-height: 70px;
+  padding-top: env(safe-area-inset-top);
+}
+
+
+@media (max-width: 600px) {
+
+  .dashboard-topbar {
+    min-height: 64px;
+  }
+
+}
+
+
+/* The upgrade strip sits directly under the topbar and needs
+   no inset of its own — but the sidebar is fixed and does. */
+
+.dashboard-sidebar {
+  padding-top: calc(20px + env(safe-area-inset-top));
+}
+
+
+/* =========================================================
+   2. TAP TARGETS
+
+   36px is below the 44px minimum. Bumping the button box
+   without bumping the icon keeps the visual weight.
+========================================================= */
+
+@media (max-width: 820px) {
+
+  .icon-button,
+  .install-topbar-button,
+  .mobile-menu-button {
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+  }
+
+
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+
+  .topbar-actions {
+    gap: 8px;
+  }
+
+
+  /* The topbar row can get tight with 4 controls — let the
+     search collapse first. */
+
+  .dashboard-search {
+    flex-shrink: 0;
+  }
+
+}
+
+
+@media (max-width: 480px) {
+
+  .icon-button,
+  .install-topbar-button,
+  .mobile-menu-button {
+    width: 42px;
+    height: 42px;
+    min-height: 42px;
+  }
+
+
+  .user-avatar {
+    width: 38px;
+    height: 38px;
+  }
+
+
+  .topbar-actions {
+    gap: 5px;
+  }
+
+}
+
+
+/* =========================================================
+   3. LEGIBLE TYPE ON MOBILE
+
+   Much of the app is set at 6–9px, which is under half the
+   16px browser default. Nothing below 11px should ship on a
+   phone; body copy wants 13–14px.
+========================================================= */
+
+@media (max-width: 820px) {
+
+  /* --- body copy and descriptions --- */
+
+  .support-faq-list details > p,
+  .support-section-heading p,
+  .support-notice span,
+  .support-enquiry-card label > span,
+  .settings-field > span,
+  .settings-card-heading p,
+  .store-section-heading p,
+  .store-field > label,
+  .store-toggle-info span,
+  .panel-heading p,
+  .metric-card > p,
+  .setup-item span,
+  .empty-state p,
+  .store-preview p,
+  .order-item-copy span,
+  .customer-card-copy span,
+  .wallet-stat-card small,
+  .billing-feature,
+  .analytics-metric > span {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+
+  /* --- titles inside cards and rows --- */
+
+  .support-faq-list summary strong,
+  .settings-preference-row strong,
+  .store-toggle-info strong,
+  .setup-item strong,
+  .metric-top > span,
+  .order-item-copy strong,
+  .customer-card-copy h3,
+  .wallet-stat-card > span,
+  .billing-plan-name,
+  .analytics-status span {
+    font-size: 14px;
+  }
+
+
+  /* --- eyebrows and category labels --- */
+
+  .support-faq-list summary small,
+  .support-section-heading span,
+  .panel-kicker,
+  .dashboard-eyebrow,
+  .store-publishing-label,
+  .wallet-section-heading span,
+  .settings-account-stats span {
+    font-size: 11px;
+    letter-spacing: .06em;
+  }
+
+
+  /* --- section headings --- */
+
+  .support-section-heading h2,
+  .settings-card-heading h2,
+  .store-section-heading h2,
+  .panel-heading h2,
+  .wallet-section-heading h2 {
+    font-size: 18px;
+  }
+
+
+  /* --- form controls: 16px prevents iOS zoom on focus --- */
+
+  .support-faq-search input,
+  .support-enquiry-card input,
+  .support-enquiry-card select,
+  .support-enquiry-card textarea,
+  .settings-field input,
+  .store-field input,
+  .store-v1-field input,
+  .store-v1-field select,
+  .store-v1-field textarea,
+  .products-search input,
+  .orders-search input,
+  .customers-search input,
+  .dashboard-search input,
+  .product-form-group > input,
+  .product-form-group > textarea,
+  .product-form-group > select,
+  .payment-form-group input,
+  .payment-form-group select,
+  .payment-form-group textarea,
+  .customer-form-group input,
+  .customer-form-group textarea,
+  .store-ai-input textarea,
+  .support-ai-input textarea {
+    font-size: 16px;
+  }
+
+
+  /* --- buttons --- */
+
+  .support-category-tabs button,
+  .store-mini-button,
+  .store-remove-asset,
+  .panel-button,
+  .text-action,
+  .settings-primary-button,
+  .settings-secondary-button,
+  .conversation-filter {
+    font-size: 13px;
+  }
+
+
+  .support-category-tabs button {
+    min-height: 38px;
+    padding: 0 14px;
+  }
+
+
+  /* --- chat bubbles --- */
+
+  .support-ai-message > div,
+  .store-ai-message-bubble,
+  .message-bubble p {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+
+  /* --- FAQ rows need room to breathe at the larger size --- */
+
+  .support-faq-list summary {
+    padding: 14px;
+  }
+
+
+  .support-faq-list details > p {
+    padding: 0 14px 14px;
+  }
+
+}
+
+
+/* =========================================================
+   4. BOTTOM NAV LABELS
+========================================================= */
+
+@media (max-width: 820px) {
+
+  .mobile-nav-item {
+    font-size: 11px;
+  }
+
+
+  .mobile-nav-icon {
+    width: 34px;
+    height: 30px;
   }
 
 }
