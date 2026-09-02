@@ -121,7 +121,7 @@ export default function Sidebar({
 
 
         <img
-          src="/Runambizlogo.webp"
+          src="/runambizlogo.webp"
           alt="Runambiz"
           className="sidebar-brand-image"
         />
