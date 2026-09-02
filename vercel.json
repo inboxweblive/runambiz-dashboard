@@ -1,7 +1,4 @@
 {
   "cleanUrls": true,
-  "rewrites": [
-    { "source": "/dashboard", "destination": "https://runambiz-dashboard-7b45.vercel.app/index.html" },
-    { "source": "/dashboard/:path*", "destination": "https://runambiz-dashboard-7b45.vercel.app/:path*" }
-  ]
+   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
