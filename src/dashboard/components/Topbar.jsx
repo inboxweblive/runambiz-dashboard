@@ -72,7 +72,7 @@ const businessLogo =
         {/* MOBILE BRAND */}
 
         <img
-          src="/Runambizlogo.webp"
+          src="/runambizlogo.webp"
           alt="Runambiz"
           className="mobile-dashboard-logo"
         />
