@@ -3,7 +3,7 @@
   "name": "Runambiz",
   "short_name": "Runambiz",
   "description": "The AI store manager for African small businesses.",
-  "start_url": "/dashboard.html",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
