@@ -4,10 +4,11 @@ import { resolve } from "path";
 
 const root = import.meta.dirname;
 
-const pages = ["index", "admin", "claim" "store"];
+const pages = ["index", "admin", "claim", "store"];
 
 export default defineConfig({
   plugins: [react()],
+  base: "/dashboard/",
   build: {
     rollupOptions: {
       input: Object.fromEntries(
