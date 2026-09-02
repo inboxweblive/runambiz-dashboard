@@ -69,3 +69,15 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     flowType: "implicit",
   },
 });
+
+/* The auth page lives on the marketing site, so every redirect
+   out of this app needs an absolute URL — a relative "/auth"
+   resolves to app.runambiz.com and 404s. */
+
+export const AUTH_ORIGIN = "https://www.runambiz.com";
+export const authUrl = (mode = "login") => `${AUTH_ORIGIN}/auth?mode=${mode}`;
+
+export async function signOut() {
+  await supabase.auth.signOut();
+  window.location.href = authUrl("login");
+}
