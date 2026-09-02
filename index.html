@@ -1,89 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8" />
 
+  <!-- viewport-fit=cover is required for env(safe-area-inset-*)
+       to report real values. Without it the insets are all 0 and
+       content sits under the notch and home indicator. -->
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
   />
 
-  <meta
-    name="robots"
-    content="noindex, nofollow"
-  />
+  <meta name="robots" content="noindex, nofollow" />
 
-<link
-  rel="manifest"
-  href="/manifest.webmanifest"
-/>
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
 
-<link
-  rel="apple-touch-icon"
-  href="/icons/apple-touch-icon.png"
-/>
+  <!-- Matches the app's dark shell, not the brand purple —
+       theme-color paints the status bar area on Android. -->
+  <meta name="theme-color" content="#090D16" />
 
-<meta
-  name="theme-color"
-  content="#5B21B6"
-/>
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Runambiz" />
 
-<meta
-  name="mobile-web-app-capable"
-  content="yes"
-/>
+  <title>Dashboard — Runambiz</title>
 
-<meta
-  name="apple-mobile-web-app-capable"
-  content="yes"
-/>
-
-<meta
-  name="apple-mobile-web-app-status-bar-style"
-  content="black-translucent"
-/>
-
-<meta
-  name="apple-mobile-web-app-title"
-  content="Runambiz"
-/>
-
-  <title>
-    Dashboard — Runambiz
-  </title>
-
-
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
-  />
-
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
-  />
-
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
     rel="stylesheet"
   />
-
 </head>
 
-
 <body>
-
   <div id="root"></div>
-
-
-  <script
-    type="module"
-    src="/src/dashboard/main.jsx"
-  ></script>
-
+  <script type="module" src="/src/dashboard/main.jsx"></script>
 </body>
-
 </html>
