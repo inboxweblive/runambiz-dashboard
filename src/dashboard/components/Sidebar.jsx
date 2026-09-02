@@ -120,11 +120,7 @@ export default function Sidebar({
       <div className="sidebar-brand">
 
 
-        <img
-          src="/runambizlogo.webp"
-          alt="Runambiz"
-          className="sidebar-brand-image"
-        />
+       
 
 
         <button
