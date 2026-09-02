@@ -8,7 +8,6 @@ const pages = ["index", "admin", "claim", "store"];
 
 export default defineConfig({
   plugins: [react()],
-  base: "/dashboard/",
   build: {
     rollupOptions: {
       input: Object.fromEntries(
