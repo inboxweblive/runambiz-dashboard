@@ -1,4 +1,6 @@
 {
   "cleanUrls": true,
+   { "source": "/store/:slug/links", "destination": "/store.html?store=:slug&view=links" },
+    { "source": "/store/:slug", "destination": "/store.html?store=:slug" },
    "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
