@@ -1,5 +1,4 @@
 
-
 import { useEffect, useState, useCallback } from "react";
 
 import {
@@ -7,6 +6,7 @@ import {
   Copy,
   Globe2,
   Loader2,
+  Sparkles,
   Trash2,
   TriangleAlert
 } from "lucide-react";
@@ -16,6 +16,8 @@ import { supabase } from "../../lib/supabase";
 
 export default function CustomDomainSection({
   business,
+  canUseCustomDomain = false,
+  onNavigate,
   onBusinessChanged
 }) {
 
@@ -239,7 +241,56 @@ export default function CustomDomainSection({
       <div className="store-section-content">
 
 
-        {status === "none" && (
+        {/* ===============================================
+            FREE PLAN — nothing connected yet
+        ================================================ */}
+
+        {status === "none" && !canUseCustomDomain && (
+
+          <>
+
+            <div className="store-free-explanation">
+
+              <Sparkles size={17} />
+
+              <div>
+
+                <strong>
+                  Available on paid plans
+                </strong>
+
+                <span>
+                  Connect a domain you own — like
+                  yourbusiness.com — so customers see your
+                  brand instead of a Runambiz address. Your
+                  free storefront link keeps working either
+                  way.
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <button
+              type="button"
+              className="store-save-main"
+              onClick={() => onNavigate?.("Plans & Billing")}
+            >
+              <Sparkles size={16} />
+              See plans
+            </button>
+
+          </>
+
+        )}
+
+
+        {/* ===============================================
+            PAID PLAN — connect form
+        ================================================ */}
+
+        {status === "none" && canUseCustomDomain && (
 
           <>
 
@@ -291,6 +342,17 @@ export default function CustomDomainSection({
 
         )}
 
+
+        {/* ===============================================
+            CONNECTED — pending or active
+
+            Deliberately NOT gated. A merchant whose plan
+            lapses keeps full control of a domain they
+            already connected: they can see it, check it,
+            and disconnect it. Locking someone out of a
+            live store URL because a payment failed turns
+            a billing problem into a support crisis.
+        ================================================ */}
 
         {status !== "none" && (
 
