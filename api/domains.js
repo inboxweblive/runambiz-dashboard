@@ -1,28 +1,3 @@
-/* =========================================================
-   RUNAMBIZ — CUSTOM DOMAIN API
-
-   Place at:  api/domains.js  (repo root, NOT src/)
-
-   Vercel turns any file under /api into a serverless
-   function automatically. This works on the Hobby plan.
-
-   The Vercel token can add and remove domains on your whole
-   account, so it must never reach the browser. Everything
-   here runs server-side.
-
-   Required environment variables on the dashboard project:
-
-     VERCEL_TOKEN                account token
-     VERCEL_PROJECT_ID           the dashboard project's ID
-     VERCEL_TEAM_ID              only if the project sits in a team
-     SUPABASE_URL                same value as VITE_SUPABASE_URL
-     SUPABASE_SERVICE_ROLE_KEY   service role, NOT the anon key
-
-   Note these have no VITE_ prefix — that prefix is what
-   exposes a variable to the client bundle, which is exactly
-   what we're avoiding.
-========================================================= */
-
 import { createClient } from "@supabase/supabase-js";
 
 
@@ -66,10 +41,6 @@ function normaliseDomain(input) {
 
 function isValidDomain(value) {
 
-  /* Letters, digits, hyphens, at least one dot, and a TLD of
-     two or more letters. Deliberately strict — a bad domain
-     that reaches Vercel comes back as an opaque error. */
-
   return /^(?!-)[a-z0-9-]{1,63}(\.[a-z0-9-]{1,63})*\.[a-z]{2,}$/
     .test(value);
 }
@@ -77,9 +48,6 @@ function isValidDomain(value) {
 
 /* ---------------------------------------------------------
    Confirm the caller owns the business they're editing.
-
-   Without this, any signed-in user could attach a domain to
-   somebody else's store.
 --------------------------------------------------------- */
 
 async function authorise(request, admin, businessId) {
@@ -118,6 +86,53 @@ async function authorise(request, admin, businessId) {
   }
 
   return { business };
+}
+
+
+/* ---------------------------------------------------------
+   Plan gate.
+
+   Client-side gating is presentation only — anyone can POST
+   here directly, so the real check lives on the server.
+
+   Gating on is_paid rather than a named feature flag. If you
+   prefer a specific "custom_domain" entry in your features
+   JSON, swap the final condition for a lookup into it — and
+   make sure the client check in CustomDomainSection agrees,
+   or the button will show while the API rejects.
+--------------------------------------------------------- */
+
+async function hasPaidPlan(admin, businessId) {
+
+  const { data, error } = await admin
+    .from("business_subscriptions")
+    .select(`
+      status,
+      subscription_plans (
+        is_paid
+      )
+    `)
+    .eq("business_id", businessId)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Plan check error:", error);
+    return false;
+  }
+
+  if (!data) {
+    return false;
+  }
+
+  /* non_renewing means they cancelled but the paid period
+     hasn't ended yet — they keep access until it does. */
+
+  const activeStatus =
+    data.status === "active" ||
+    data.status === "non_renewing";
+
+  return activeStatus && data.subscription_plans?.is_paid === true;
+
 }
 
 
@@ -222,6 +237,23 @@ async function addDomain(response, admin, business, rawDomain) {
       .json({ error: "Use a domain you own, not a runambiz.com address." });
   }
 
+
+  /* Only connecting a NEW domain is gated. Status checks and
+     removal stay open below, so a merchant whose plan lapses
+     can still see and disconnect what they have. */
+
+  const paid = await hasPaidPlan(admin, business.id);
+
+  if (!paid) {
+    return response
+      .status(403)
+      .json({
+        error:
+          "Connecting your own domain is available on a paid plan."
+      });
+  }
+
+
   /* Claimed by another merchant? Check before calling Vercel
      so the error is meaningful instead of a 409 from the API. */
 
@@ -237,6 +269,7 @@ async function addDomain(response, admin, business, rawDomain) {
       .status(409)
       .json({ error: "That domain is already connected to another store." });
   }
+
 
   /* If they're replacing an existing domain, release the old
      one from Vercel first — otherwise it keeps serving. */
@@ -298,9 +331,8 @@ async function addDomain(response, admin, business, rawDomain) {
 /* =========================================================
    STATUS
 
-   Called by the UI while the merchant sets up DNS. Vercel
-   reports two separate things: whether we've verified they
-   own it, and whether the DNS actually points at us.
+   Vercel reports two separate things: whether we've verified
+   ownership, and whether the DNS actually points at us.
 ========================================================= */
 
 async function checkDomain(response, admin, business) {
@@ -400,8 +432,8 @@ async function releaseFromVercel(name) {
   } catch (err) {
 
     /* Already gone, or Vercel is down. Don't block the
-       merchant from moving on — worst case an orphan domain
-       sits on the project. */
+       merchant — worst case an orphan domain sits on the
+       project. */
 
     console.warn("Could not release domain:", name, err);
 
