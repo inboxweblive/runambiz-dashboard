@@ -3920,7 +3920,7 @@ body:has(.store-product-detail-layer) .store-float-contact {
   padding: clamp(38px, 6vw, 58px) 0 0;
 
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, .7fr) minmax(0, 1.1fr);
   gap: clamp(26px, 4vw, 48px);
 }
 
