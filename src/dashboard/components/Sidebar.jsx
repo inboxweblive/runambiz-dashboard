@@ -8,6 +8,7 @@ import {
   CreditCard,
   BarChart3,
   Store,
+  Star,
   Radio,
   WalletCards,
   Settings,
