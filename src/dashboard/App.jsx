@@ -1657,7 +1657,7 @@ onProfileOpen={() =>
 
 
 
-                <div className="panel-heading">
+                               <div className="panel-heading">
 
 
                   <div>
@@ -1672,15 +1672,18 @@ onProfileOpen={() =>
 
                     <h2>
 
-                      Finish setting up Runambiz
+                      {setupProgress === 100
+                        ? "Runambiz is set up"
+                        : "Finish setting up Runambiz"}
 
                     </h2>
 
 
                     <p>
 
-                      Complete these steps before
-                      publishing your store.
+                      {setupProgress === 100
+                        ? "Everything is ready. Your store is live for customers."
+                        : "Complete these steps before publishing your store."}
 
                     </p>
 
@@ -1697,9 +1700,6 @@ onProfileOpen={() =>
 
 
                 </div>
-
-
-
                <div className="setup-progress">
 
   <span
