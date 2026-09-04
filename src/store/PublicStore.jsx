@@ -2629,11 +2629,10 @@ const linkInBioHref =
  
  
     {/* ---- contact ---- */}
- 
-    <div className="store-footer-column">
- 
+ <div className="store-footer-column">
+
       <strong>Contact</strong>
- 
+
       {business.location && (
         <span>
           <MapPin size={14} />
@@ -2641,47 +2640,50 @@ const linkInBioHref =
           {business.country_name ? `, ${business.country_name}` : ""}
         </span>
       )}
- 
+
       {business.contact_whatsapp && (
         <a
           href={`https://wa.me/${String(business.contact_whatsapp).replace(/\D/g, "")}`}
           target="_blank"
           rel="noreferrer"
         >
+          <MessageCircle size={14} />
           WhatsApp {business.contact_whatsapp}
         </a>
       )}
- 
+
       {business.contact_phone && (
         <a href={`tel:${business.contact_phone}`}>
+          <Phone size={14} />
           {business.contact_phone}
         </a>
       )}
- 
+
       {business.contact_email && (
         <a href={`mailto:${business.contact_email}`}>
+          <Mail size={14} />
           {business.contact_email}
         </a>
       )}
- 
+
       {business.business_hours_text && (
         <span>
           <Clock size={14} />
           {business.business_hours_text}
         </span>
       )}
- 
- 
+
+
       {Object.values(socials).some(Boolean) && (
- 
+
         <div className="store-footer-socials">
- 
+
           {Object.entries(socials)
             .filter(([, url]) => Boolean(url))
             .map(([platform, url]) => {
- 
+
               const Icon = SOCIAL_ICONS[platform] || Globe2;
- 
+
               return (
                 <a
                   key={platform}
@@ -2694,13 +2696,12 @@ const linkInBioHref =
                 </a>
               );
             })}
- 
+
         </div>
- 
+
       )}
- 
+
     </div>
- 
  
   </div>
  
