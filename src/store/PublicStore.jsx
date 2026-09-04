@@ -2071,6 +2071,13 @@ const linkInBioHref =
         business.featured_post_image_url && (
  
         <section className="store-featured-post">
+
+          <div className="store-products-heading">
+            <div>
+              <span>Featured</span>
+              <h2>What&apos;s new</h2>
+            </div>
+          </div>
  
           {(() => {
  
