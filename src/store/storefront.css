@@ -2871,41 +2871,6 @@ svg { flex-shrink: 0; }
   letter-spacing: .04em;
 }
 
-/* =========================================================
-   26  FOOTER
-========================================================= */
-
-.store-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 26px max(var(--gutter), calc((100% - var(--container)) / 2));
-  border-top: 1px solid var(--store-border);
-  background: var(--surface);
-}
-
-.store-footer > div {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.store-footer span,
-.store-footer p {
-  color: var(--muted);
-  font-size: 10.5px;
-  font-weight: 600;
-}
-
-.store-footer strong {
-  color: var(--violet);
-  font-size: 12px;
-  font-weight: 850;
-  letter-spacing: -.01em;
-}
-
-.store-footer strong a:hover { text-decoration: underline; }
 
 /* =========================================================
    27  GLOBAL STATES
