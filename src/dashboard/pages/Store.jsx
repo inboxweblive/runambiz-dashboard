@@ -11,7 +11,7 @@ import {
   ExternalLink,
   Eye,
   EyeOff,
-
+Star,
   Globe2,
   ImagePlus,
   Loader2,
