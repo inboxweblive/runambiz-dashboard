@@ -1130,6 +1130,16 @@ const linkInBioHref =
       ? `${storeHomeHref}&view=links`
       : `/store/${activeSlug}/links`;
 
+    const navLinks = [
+    { href: "#shop", label: "Shop" },
+    business.about_text && { href: "#about", label: "About" },
+    faqs.length > 0 && { href: "#faq", label: "FAQ" },
+    business.link_in_bio_enabled === true && {
+      href: linkInBioHref,
+      label: "Links"
+    }
+  ].filter(Boolean);
+
   /* =========================================================
      PRODUCT URL
   ========================================================= */
