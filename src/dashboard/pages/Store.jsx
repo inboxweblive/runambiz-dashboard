@@ -4789,6 +4789,20 @@ if (
 
             />
 
+             <StoreToggle
+ 
+              icon={<Star size={17} />}
+ 
+              title="Customer reviews"
+ 
+              description="Let customers leave reviews. You approve each one before it appears."
+ 
+              checked={reviewsEnabled}
+ 
+              onChange={setReviewsEnabled}
+ 
+            />
+
 
           </div>
 
