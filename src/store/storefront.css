@@ -4236,22 +4236,22 @@ body:has(.store-product-detail-layer) .store-float-contact {
  
 .store-featured-post-copy {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
- 
+  left: clamp(14px, 3vw, 24px);
+  right: clamp(14px, 3vw, 24px);
+  bottom: clamp(14px, 3vw, 24px);
+
   display: flex;
   flex-direction: column;
   gap: 5px;
- 
-  padding: clamp(20px, 4vw, 30px);
- 
-  background: linear-gradient(
-    0deg,
-    rgba(6, 4, 18, .82) 0%,
-    rgba(6, 4, 18, .38) 55%,
-    transparent 100%
-  );
+
+  padding: clamp(14px, 2.5vw, 20px);
+
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: var(--r-md);
+
+  background: rgba(10, 8, 22, .42);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
 }
  
  
