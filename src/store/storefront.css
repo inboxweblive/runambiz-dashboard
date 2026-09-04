@@ -4181,6 +4181,23 @@ body:has(.store-product-detail-layer) .store-float-contact {
 }
 
 
+@media (max-width: 760px) {
+
+  .store-footer,
+  .store-footer-inner,
+  .store-footer-brand,
+  .store-footer-column,
+  .store-footer-bottom {
+    text-align: left;
+  }
+
+  .store-footer-column {
+    align-items: flex-start;
+  }
+
+}
+
+
 @media (prefers-reduced-motion: reduce) {
 
   .store-mobile-drawer-panel,
