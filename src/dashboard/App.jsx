@@ -129,6 +129,7 @@ export default function App() {
     theme,
     toggleTheme
   } = useTheme();
+  
 
 
     /* =========================================
@@ -1559,35 +1560,21 @@ onProfileOpen={() =>
 
 
 
-           <MetricCard
+     <MetricCard
 
-  label="Total sales"
+  label="Orders"
 
-  value={
-    new Intl.NumberFormat(
-      "en-NG",
-      {
-        style: "currency",
-        currency:
-          business?.currency ||
-          "NGN",
-
-        maximumFractionDigits: 0
-      }
-    ).format(
-      dashboardStats.totalSales
-    )
-  }
+  value={String(dashboardStats.orders)}
 
   note={
-    dashboardStats.totalSales > 0
-      ? "Confirmed payments"
-      : "No sales yet"
+    dashboardStats.orders > 0
+      ? `${dashboardStats.orders} order${
+          dashboardStats.orders === 1 ? "" : "s"
+        } received`
+      : "No orders yet"
   }
 
-  icon={
-    TrendingUp
-  }
+  icon={ShoppingBag}
 
 />
 
