@@ -107,6 +107,8 @@ import AnalyticsPage
   from "./pages/Analytics";
 
 
+import Reviews from "./pages/Reviews";
+
 
 import HelpSupportPage
   from "./pages/HelpSupport";
@@ -2411,6 +2413,14 @@ onProfileOpen={() =>
 
 />
 
+  ) : activePage === "Reviews" ? (
+ 
+  <Reviews
+    business={business}
+    refreshKey={realtimeVersion}
+  />
+
+  
 ) : activePage === "Wallet" ? (
 
   <WalletPage
