@@ -385,7 +385,7 @@ export default function Store({
   ] =
     useState(true);
 
-
+const [reviewsEnabled, setReviewsEnabled] = useState(true);
 
   /* =======================================================
      LINK IN BIO
@@ -794,7 +794,9 @@ const aiSetupInProgress =
       true
     );
 
-
+ setReviewsEnabled(
+      business.reviews_enabled ?? true
+    );
 
     /* =====================================================
        LINK IN BIO
@@ -1399,7 +1401,8 @@ const linkInBioUrl = useMemo(() => {
             show_contact_section:
               showContactSection,
 
-
+ reviews_enabled:
+              reviewsEnabled,
 
             /* ===============================================
                LINK IN BIO
