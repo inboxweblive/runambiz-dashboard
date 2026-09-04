@@ -4059,19 +4059,21 @@ body:has(.store-product-detail-layer) .store-float-contact {
 }
 
 
-.store-footer-column span {
+.store-footer-column span,
+.store-footer-column > a {
   display: flex;
   align-items: flex-start;
   gap: 8px;
 }
 
 
-.store-footer-column span svg {
-  margin-top: 2px;
+.store-footer-column span svg,
+.store-footer-column > a svg {
+  flex-shrink: 0;
+  margin-top: 3px;
   color: var(--store-accent);
   opacity: .8;
 }
-
 
 /* --- socials --- */
 
