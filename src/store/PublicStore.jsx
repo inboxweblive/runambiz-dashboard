@@ -2388,6 +2388,7 @@ const linkInBioHref =
             </div>
 
 
+          
             <div className="store-contact-buttons">
 
               {business.contact_whatsapp && (
