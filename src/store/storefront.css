@@ -274,6 +274,7 @@ button,
 input,
 select,
 textarea {
+  font-size: 16px;
   font: inherit;
   color: inherit;
   letter-spacing: inherit;
@@ -850,7 +851,7 @@ svg { flex-shrink: 0; }
   outline: 0;
   background: transparent;
   color: var(--ink);
-  font-size: 12.5px;
+  font-size: 16px;
   font-weight: 500;
 }
 
@@ -2310,7 +2311,7 @@ svg { flex-shrink: 0; }
   background: var(--surface-2);
   color: var(--ink);
   font: inherit;
-  font-size: 12.5px;
+  font-size: 16px;
   transition: border-color var(--t-base), box-shadow var(--t-base), background var(--t-base);
 }
 
@@ -2319,6 +2320,7 @@ svg { flex-shrink: 0; }
 .checkout-field textarea {
   resize: vertical;
   padding: 11px 13px;
+  font-size: 16px;
   line-height: 1.6;
 }
 
@@ -3516,18 +3518,7 @@ svg { flex-shrink: 0; }
 @media (max-width: 760px) {
   .store-public-nav { display: none; }
 
-  .store-mobile-nav {
-    display: flex;
-    gap: 7px;
-    width: calc(100% - 22px);
-    margin: 0 auto;
-    padding: 0 0 10px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    mask-image: linear-gradient(90deg, #000 0, #000 93%, transparent 100%);
-    -webkit-mask-image: linear-gradient(90deg, #000 0, #000 93%, transparent 100%);
-  }
+
 
   .store-mobile-nav::-webkit-scrollbar { display: none; }
 
@@ -3651,6 +3642,603 @@ svg { flex-shrink: 0; }
   .account-number-card { padding: 12px 14px; }
   .copy-account-button { min-width: 68px; padding: 0 10px; font-size: 11px; }
   .store-about-section { border-radius: var(--r-lg); }
+}
+
+/* =========================================================
+   RUNAMBIZ STOREFRONT — FLOATING CONTACT + DISCOUNT BADGE
+
+   Append to the end of storefront.css, before the final
+   prefers-reduced-motion block.
+========================================================= */
+
+
+/* =========================================================
+   FLOATING WHATSAPP
+
+   Every reference store keeps this pinned bottom-right.
+   In Nigerian commerce it's where the order actually
+   happens, so it shouldn't scroll away with the hero.
+========================================================= */
+
+.store-float-contact {
+  position: fixed;
+  right: clamp(14px, 3vw, 24px);
+  bottom: clamp(14px, 3vw, 24px);
+  z-index: 80;
+
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: linear-gradient(160deg, #25D366 0%, #128C7E 100%);
+  color: #fff;
+
+  cursor: pointer;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .3),
+    0 10px 26px -8px rgba(18, 140, 126, .7),
+    0 2px 8px rgba(0, 0, 0, .18);
+
+  transition:
+    transform var(--t-base),
+    box-shadow var(--t-base),
+    filter var(--t-base);
+
+  animation: storeFloatIn .5s var(--ease) .6s both;
+}
+
+
+.store-float-contact:hover {
+  transform: translateY(-3px) scale(1.04);
+  filter: brightness(1.06);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .3),
+    0 18px 38px -10px rgba(18, 140, 126, .8),
+    0 2px 8px rgba(0, 0, 0, .2);
+}
+
+
+.store-float-contact:active {
+  transform: translateY(0) scale(.98);
+}
+
+
+.store-float-contact:focus-visible {
+  outline: 2px solid var(--store-accent);
+  outline-offset: 4px;
+}
+
+
+/* A single pulse on arrival draws the eye once without
+   becoming a permanently distracting element. */
+
+.store-float-contact::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid #25D366;
+  animation: storeFloatPulse 2.4s var(--ease) 1.2s 3;
+}
+
+
+@keyframes storeFloatIn {
+  from { opacity: 0; transform: translateY(14px) scale(.85); }
+  to   { opacity: 1; transform: none; }
+}
+
+
+@keyframes storeFloatPulse {
+  0%   { opacity: .7; transform: scale(1); }
+  70%  { opacity: 0;  transform: scale(1.5); }
+  100% { opacity: 0;  transform: scale(1.5); }
+}
+
+
+/* Lift clear of the cart drawer's bottom sheet on mobile,
+   and hide entirely while an overlay is open so it can't
+   sit on top of the checkout. */
+
+body:has(.store-cart-layer) .store-float-contact,
+body:has(.store-checkout-layer) .store-float-contact,
+body:has(.store-product-detail-layer) .store-float-contact {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+}
+
+
+/* =========================================================
+   DISCOUNT BADGE
+
+   compare_at_price is already stored and shown as a
+   strikethrough. The percentage is what actually gets
+   noticed — it's the strongest element on the reference
+   product grids.
+========================================================= */
+
+.product-discount-badge {
+  position: absolute;
+  top: 11px;
+  right: 11px;
+
+  padding: 5px 9px;
+
+  border-radius: var(--r-full);
+
+  background: linear-gradient(160deg, #EF4444 0%, #DC2626 100%);
+  color: #fff;
+
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: -.01em;
+  font-variant-numeric: tabular-nums;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .25),
+    0 4px 12px -4px rgba(220, 38, 38, .7);
+}
+
+
+/* =========================================================
+   RUNAMBIZ STOREFRONT — MOBILE MENU + FOOTER
+
+   Append to storefront.css.
+
+   Section 29's existing @media (max-width: 760px) rules for
+   .store-mobile-nav are replaced by this — delete that block
+   from the responsive section, or these rules will fight it.
+========================================================= */
+
+
+/* =========================================================
+   MOBILE MENU BUTTON
+
+   Hidden on desktop; the inline nav handles that width.
+========================================================= */
+
+.store-menu-button {
+  display: none;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  flex-shrink: 0;
+
+  border: 0;
+  border-radius: var(--r-sm);
+
+  background: transparent;
+  color: var(--store-ink);
+
+  cursor: pointer;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+
+
+.store-menu-button:hover {
+  background: var(--violet-soft);
+  color: var(--store-primary);
+}
+
+
+/* =========================================================
+   MOBILE DRAWER
+
+   Full-screen panel below the header, numbered like the
+   reference stores. Numbers do real work here — they make
+   a five-item list read as considered rather than sparse.
+========================================================= */
+
+.store-mobile-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: none;
+}
+
+
+.store-mobile-drawer-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: rgba(2, 6, 23, .5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: storeBackdropIn var(--t-base);
+}
+
+
+.store-mobile-drawer-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  padding: 8px 0
+           calc(14px + env(safe-area-inset-bottom));
+
+  background:
+    radial-gradient(120% 90% at 100% 0%,
+      color-mix(in srgb, var(--store-primary) 22%, transparent),
+      transparent 62%),
+    var(--grad-ink);
+
+  box-shadow: 0 30px 70px -30px rgba(0, 0, 0, .8);
+
+  animation: storeDrawerDown .32s var(--ease);
+}
+
+
+@keyframes storeDrawerDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+
+.store-mobile-drawer-panel a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  min-height: 62px;
+  padding: 0 var(--gutter);
+
+  color: #fff;
+  text-decoration: none;
+
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 750;
+  letter-spacing: -.02em;
+
+  transition: background var(--t-fast), padding-left var(--t-base);
+}
+
+
+.store-mobile-drawer-panel a + a {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+}
+
+
+.store-mobile-drawer-panel a:active {
+  background: rgba(255, 255, 255, .06);
+  padding-left: calc(var(--gutter) + 6px);
+}
+
+
+/* The index number, set in the accent colour. */
+
+.store-mobile-drawer-panel a span {
+  color: var(--store-accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================================================
+   PREMIUM FOOTER
+
+   Replaces the single-line footer. Multi-column on desktop,
+   stacked on mobile.
+========================================================= */
+
+.store-footer {
+  display: block;
+  padding: 0;
+  border-top: 0;
+
+  background:
+    radial-gradient(90% 120% at 8% 0%,
+      color-mix(in srgb, var(--store-primary) 26%, transparent),
+      transparent 58%),
+    var(--grad-ink);
+
+  color: #fff;
+}
+
+
+.store-footer-inner {
+  width: min(var(--container), calc(100% - 32px));
+  margin: auto;
+  padding: clamp(38px, 6vw, 58px) 0 0;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr));
+  gap: clamp(26px, 4vw, 48px);
+}
+
+
+/* --- brand column --- */
+
+.store-footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  min-width: 0;
+}
+
+
+.store-footer-mark {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+
+.store-footer-mark > div {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  overflow: hidden;
+
+  border-radius: 14px;
+  background: var(--grad-violet);
+  color: #fff;
+
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 800;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .22),
+    0 10px 24px -10px rgba(0, 0, 0, .8);
+}
+
+
+.store-footer-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.store-footer-mark strong {
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -.026em;
+}
+
+
+.store-footer-brand > p {
+  max-width: 42ch;
+  margin: 0;
+  color: rgba(255, 255, 255, .58);
+  font-size: 12px;
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+
+
+.store-footer-cta {
+  min-height: 44px;
+  width: max-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 18px;
+
+  border-radius: var(--r-sm);
+
+  background: var(--grad-lime);
+  color: var(--violet-deep);
+
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: .01em;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .5),
+    0 12px 28px -12px rgba(163, 230, 53, .7);
+
+  transition: transform var(--t-base), filter var(--t-base);
+}
+
+
+.store-footer-cta:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+
+/* --- link + contact columns --- */
+
+.store-footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  min-width: 0;
+}
+
+
+.store-footer-column > strong {
+  color: var(--store-accent);
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 900;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+
+.store-footer-column a,
+.store-footer-column span {
+  color: rgba(255, 255, 255, .62);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.5;
+  transition: color var(--t-fast), transform var(--t-fast);
+}
+
+
+.store-footer-column a:hover {
+  color: #fff;
+  transform: translateX(2px);
+}
+
+
+.store-footer-column span {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+
+.store-footer-column span svg {
+  margin-top: 2px;
+  color: var(--store-accent);
+  opacity: .8;
+}
+
+
+/* --- socials --- */
+
+.store-footer-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+
+.store-footer-socials a {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: var(--r-sm);
+  background: rgba(255, 255, 255, .05);
+  color: rgba(255, 255, 255, .72);
+
+  transition: background var(--t-base), color var(--t-base),
+              transform var(--t-base), border-color var(--t-base);
+}
+
+
+.store-footer-socials a:hover {
+  border-color: rgba(255, 255, 255, .2);
+  background: rgba(255, 255, 255, .11);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+
+/* --- bottom bar --- */
+
+.store-footer-bottom {
+  width: min(var(--container), calc(100% - 32px));
+  margin: clamp(30px, 5vw, 44px) auto 0;
+  padding: 20px 0 26px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+}
+
+
+.store-footer-bottom p {
+  margin: 0;
+  color: rgba(255, 255, 255, .36);
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+
+.store-footer-powered {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, .4);
+  font-size: 10.5px;
+  font-weight: 650;
+}
+
+
+.store-footer-powered a {
+  color: var(--store-accent);
+  font-weight: 850;
+  transition: opacity var(--t-fast);
+}
+
+
+.store-footer-powered a:hover { opacity: .8; }
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 760px) {
+
+  /* The inline nav and the old scrolling pill row both go —
+     the drawer replaces them. */
+
+  .store-public-nav,
+  .store-mobile-nav { display: none; }
+
+  .store-menu-button { display: grid; }
+
+  .store-mobile-drawer.is-open { display: block; }
+
+  .store-footer-inner {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .store-footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+  .store-mobile-drawer-panel,
+  .store-mobile-drawer-backdrop { animation: none; }
+
+  .store-mobile-drawer-panel a,
+  .store-footer-column a,
+  .store-footer-socials a,
+  .store-footer-cta { transition: none; }
+
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .store-float-contact,
+  .store-float-contact::after {
+    animation: none;
+  }
+
 }
 
 @media (prefers-reduced-motion: reduce) {
