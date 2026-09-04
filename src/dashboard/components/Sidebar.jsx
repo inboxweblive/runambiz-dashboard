@@ -40,6 +40,14 @@ const navigation = [
     icon: Users
   },
 
+
+  {
+    label: "Reviews",
+    icon: Star 
+  },
+
+
+  
   {
     label: "Messages",
     icon: MessageCircle
