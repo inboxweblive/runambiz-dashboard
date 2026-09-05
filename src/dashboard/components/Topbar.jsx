@@ -1,6 +1,5 @@
 import {
   Bell,
-  Bot,
   Download,
   Menu,
   Moon,
@@ -18,7 +17,6 @@ export default function Topbar({
   notificationCount = 0,
   onMenuOpen,
   onThemeToggle,
-  onHelpOpen,
   onInstallOpen,
   onNotificationsOpen,
   onProfileOpen
@@ -130,16 +128,7 @@ const businessLogo =
 )}
 
 
-        <button
-          type="button"
-          className="icon-button topbar-help-button"
-          onClick={onHelpOpen}
-          aria-label="Get help"
-          title="Help & support"
-        >
-          <Bot size={19} />
-        </button>
-
+     
 
         {/* THEME */}
 
