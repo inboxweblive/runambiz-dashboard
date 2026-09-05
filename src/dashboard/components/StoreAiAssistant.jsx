@@ -1381,8 +1381,7 @@ const [progressOpen, setProgressOpen] = useState(false);
     <ChevronDown size={16} className="store-ai-progress-chevron" />
   </button>
 
-              </div>
-
+    
 
               <div className="store-ai-progress-bar">
 
