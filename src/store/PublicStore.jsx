@@ -2945,6 +2945,22 @@ const linkInBioHref =
       />
 
 
+            {(business.contact_whatsapp ||
+        business.contact_email ||
+        business.contact_phone) && (
+
+        <button
+          type="button"
+          className="store-float-contact"
+          aria-label={`Message ${business.name}`}
+          title="Message us"
+          onClick={contactStore}
+        >
+          <MessageCircle size={26} />
+        </button>
+
+      )}
+
       {/* =====================================================
           CART
       ====================================================== */}
