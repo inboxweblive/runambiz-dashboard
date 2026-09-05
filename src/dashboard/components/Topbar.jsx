@@ -1,5 +1,6 @@
 import {
   Bell,
+  Bot,
   Download,
   Menu,
   Moon,
