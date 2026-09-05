@@ -18,6 +18,7 @@ export default function Topbar({
   notificationCount = 0,
   onMenuOpen,
   onThemeToggle,
+  onHelpOpen,
   onInstallOpen,
   onNotificationsOpen,
   onProfileOpen
