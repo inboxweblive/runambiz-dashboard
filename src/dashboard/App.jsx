@@ -385,9 +385,9 @@ const [
         ) {
 
 
-          window.location.replace(
-            "onboarding.html"
-          );
+                  window.location.replace(
+          "https://www.runambiz.com/onboarding.html"
+        );
 
 
           return;
