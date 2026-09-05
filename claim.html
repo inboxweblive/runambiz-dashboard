@@ -411,10 +411,8 @@
 
       if (session.data && session.data.session) {
         el("signupButton").classList.add("hidden");
-      } else {
-        el("claimButton").disabled = true;
-        el("claimButton").textContent =
-          "Create an account to claim";
+       } else {
+        el("claimButton").classList.add("hidden");
       }
 
     })();
