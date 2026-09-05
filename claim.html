@@ -264,25 +264,57 @@
        so a session created on the auth page is visible
        here. */
 
-    var authStorage = {
-      getItem: function (key) {
-        return localStorage.getItem(key) ||
-               sessionStorage.getItem(key);
-      },
-      setItem: function (key, value) {
-        if (localStorage.getItem(REMEMBER_KEY) !== "false") {
-          localStorage.setItem(key, value);
-          sessionStorage.removeItem(key);
-        } else {
-          sessionStorage.setItem(key, value);
-          localStorage.removeItem(key);
-        }
-      },
-      removeItem: function (key) {
-        localStorage.removeItem(key);
-        sessionStorage.removeItem(key);
+      var COOKIE_DOMAIN = ".runambiz.com";
+    var ONE_YEAR = 31536000;
+
+
+    function writeCookie(key, value, maxAge) {
+
+      var cookie =
+        key + "=" + encodeURIComponent(value) +
+        "; domain=" + COOKIE_DOMAIN +
+        "; path=/" +
+        "; secure; samesite=lax";
+
+      if (typeof maxAge === "number") {
+        cookie += "; max-age=" + maxAge;
       }
+
+      document.cookie = cookie;
+    }
+
+
+    function readCookie(key) {
+      var safe = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      var match = document.cookie.match(
+        new RegExp("(^|;\\s*)" + safe + "=([^;]*)")
+      );
+      return match ? decodeURIComponent(match[2]) : null;
+    }
+
+
+    /* Must match auth.js exactly. This page runs on
+       app.runambiz.com but the session was created on
+       www.runambiz.com, so only a cookie scoped to
+       .runambiz.com can see it. */
+
+    var authStorage = {
+
+      getItem: function (key) {
+        return readCookie(key);
+      },
+
+      setItem: function (key, value) {
+        var remember = readCookie(REMEMBER_KEY) !== "false";
+        writeCookie(key, value, remember ? ONE_YEAR : undefined);
+      },
+
+      removeItem: function (key) {
+        writeCookie(key, "", 0);
+      }
+
     };
+    
 
     var sb = window.supabase.createClient(
       SUPABASE_URL,
