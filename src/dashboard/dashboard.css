@@ -18396,195 +18396,159 @@ svg:last-child {
    STORE AI V2 — COMPLETE SETUP PROGRESS
 ========================================================= */
 
+/* =========================================================
+   STORE AI PROGRESS — collapsible
+========================================================= */
+
 .store-ai-progress-panel {
-
   padding: 12px 14px;
-
-  border-bottom:
-    1px solid var(--border);
-
-  background:
-    var(--paper);
-
+  border-bottom: 1px solid var(--border);
+  background: var(--paper);
 }
 
 
-.store-ai-progress-heading {
+/* The whole heading becomes the toggle. */
 
+.store-ai-progress-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   gap: 10px;
 
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
 }
 
 
 .store-ai-progress-heading span {
-
   display: block;
-
   color: var(--violet);
-
-  font-size: 6px;
+  font-size: 9px;
   font-weight: 900;
-
-  letter-spacing: .08em;
-
+  letter-spacing: .1em;
 }
 
 
 .store-ai-progress-heading strong {
-
   display: block;
-
-  margin-top: 2px;
-
+  margin-top: 3px;
   color: var(--ink);
-
-  font-size: 10px;
-
+  font-size: 15px;
+  font-weight: 800;
 }
 
 
 .store-ai-progress-heading small {
-
+  flex-shrink: 0;
   color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
 
-  font-size: 7px;
 
+.store-ai-progress-chevron {
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: transform .25s ease;
+}
+
+
+.store-ai-progress-panel.is-open .store-ai-progress-chevron {
+  transform: rotate(180deg);
 }
 
 
 .store-ai-progress-bar {
-
-  height: 5px;
-
+  height: 6px;
   overflow: hidden;
-
-  margin-top: 9px;
-
+  margin-top: 10px;
   border-radius: 999px;
-
   background: var(--paper-dim);
-
 }
 
 
 .store-ai-progress-bar span {
-
   display: block;
-
   height: 100%;
-
   border-radius: inherit;
-
-  background:
-    linear-gradient(
-      90deg,
-      #5B21B6,
-      #A3E635
-    );
-
-  transition:
-    width .3s ease;
-
+  background: linear-gradient(90deg, #5B21B6, #A3E635);
+  transition: width .3s ease;
 }
 
 
+/* Collapsed by default — the merchant needs the number
+   more often than the full list, and 14 rows buries the
+   chat input on a phone. */
+
 .store-ai-checklist {
+  display: none;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
 
-  display: grid;
-
-  grid-template-columns:
-    repeat(
-      2,
-      minmax(
-        0,
-        1fr
-      )
-    );
-
-  gap: 5px;
-
+  max-height: 40vh;
+  overflow-y: auto;
   margin-top: 10px;
+  padding-right: 2px;
 
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+
+.store-ai-progress-panel.is-open .store-ai-checklist {
+  display: grid;
 }
 
 
 .store-ai-checklist > div {
-
   min-width: 0;
-
   display: flex;
   align-items: center;
+  gap: 6px;
 
-  gap: 5px;
+  padding: 9px 10px;
 
-  padding: 6px 7px;
-
-  border:
-    1px solid var(--border);
-
-  border-radius: 7px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
 
   color: var(--muted);
-
-  font-size: 6px;
-
+  font-size: 11px;
+  font-weight: 600;
 }
 
 
 .store-ai-checklist > div.done {
-
-  border-color:
-    rgba(
-      34,
-      197,
-      94,
-      .18
-    );
-
-  background:
-    rgba(
-      34,
-      197,
-      94,
-      .05
-    );
-
+  border-color: rgba(34, 197, 94, .18);
+  background: rgba(34, 197, 94, .05);
   color: var(--ink-soft);
-
 }
 
 
 .store-ai-checklist > div.done svg {
-
+  flex-shrink: 0;
   color: #16A34A;
-
 }
 
 
 .store-ai-checklist > div > span {
-
   min-width: 0;
-
   overflow: hidden;
-
   text-overflow: ellipsis;
-
   white-space: nowrap;
-
 }
 
 
-.store-ai-checklist > div > small {
+@media (max-width: 480px) {
 
-  margin-left: auto;
-
-  color: var(--muted);
-
-  font-size: 5px;
+  .store-ai-checklist {
+    grid-template-columns: 1fr;
+    max-height: 34vh;
+  }
 
 }
 
