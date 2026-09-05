@@ -13,7 +13,6 @@ export default function Topbar({
   theme,
   profile,
   user,
-  Bot,
   business,
   installed,
   notificationCount = 0,
