@@ -12,6 +12,7 @@ import {
   Coins,
   Loader2,
   Send,
+  ChevronDown,
   Sparkles,
   Store,
   X
@@ -283,7 +284,7 @@ export default function StoreAiAssistant({
   const chatEndRef =
     useRef(null);
 
-
+const [progressOpen, setProgressOpen] = useState(false);
 
   const checklistItems =
     useMemo(
@@ -1358,33 +1359,27 @@ export default function StoreAiAssistant({
           <>
 
 
-            <div className="store-ai-progress-panel">
+            <div className={
+  progressOpen
+    ? "store-ai-progress-panel is-open"
+    : "store-ai-progress-panel"
+}>
 
+  <button
+    type="button"
+    className="store-ai-progress-heading"
+    aria-expanded={progressOpen}
+    onClick={() => setProgressOpen(open => !open)}
+  >
+    <div>
+      <span>COMPLETE STORE SETUP</span>
+      <strong>{percent}% ready</strong>
+    </div>
 
-              <div className="store-ai-progress-heading">
+    <small>{done}/{total}</small>
 
-
-                <div>
-
-                  <span>
-                    COMPLETE STORE SETUP
-                  </span>
-
-                  <strong>
-                    {progress}% ready
-                  </strong>
-
-                </div>
-
-
-                <small>
-
-                  {completedCount}
-                  /
-                  {checklistItems.length}
-
-                </small>
-
+    <ChevronDown size={16} className="store-ai-progress-chevron" />
+  </button>
 
               </div>
 
