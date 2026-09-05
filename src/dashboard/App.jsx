@@ -496,7 +496,7 @@ const [
           if (requestedStoreId) {
 
             window.location.replace(
-              "dashboard.html"
+              "index.html"
             );
 
             return;
@@ -504,9 +504,9 @@ const [
           }
 
 
-          window.location.replace(
-            "onboarding.html"
-          );
+                  window.location.replace(
+          "https://www.runambiz.com/onboarding.html"
+        );
 
 
           return;
