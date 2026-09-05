@@ -399,7 +399,7 @@ svg { flex-shrink: 0; }
   outline: 0;
   background: transparent;
   color: var(--ink);
-  font-size: 13px;
+  font-size: 16px;
 }
 
 .admin-ghost-button,
@@ -881,7 +881,7 @@ svg { flex-shrink: 0; }
   border-radius: 11px;
   background: var(--surface-2);
   color: var(--text);
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1.7;
   white-space: pre-wrap;
 }
@@ -894,7 +894,7 @@ svg { flex-shrink: 0; }
   border-radius: 11px;
   outline: 0;
   background: var(--surface-2);
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1.6;
   resize: vertical;
 }
@@ -947,7 +947,7 @@ svg { flex-shrink: 0; }
   border-radius: 9px;
   outline: 0;
   background: var(--surface-2);
-  font-size: 13px;
+  font-size: 16px;
 }
 
 .admin-drawer-actions {
@@ -1187,7 +1187,7 @@ svg { flex-shrink: 0; }
   outline: 0;
   background: var(--surface-2);
   font: inherit;
-  font-size: 13.5px;
+  font-size: 16px;
   line-height: 1.65;
   resize: vertical;
   transition: border-color .2s var(--ease), box-shadow .2s ease;
