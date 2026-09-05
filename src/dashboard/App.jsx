@@ -1391,6 +1391,8 @@ onProfileOpen={() =>
     toggleTheme
   }
 
+            onHelpOpen={() => navigateTo("Help & support")}
+          
   onInstallOpen={() =>
     setInstallModalOpen(true)
   }
