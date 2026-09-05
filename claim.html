@@ -447,6 +447,16 @@
         document.cookie =
       "runambiz-claim-token=; domain=.runambiz.com; path=/; max-age=0; secure; samesite=lax";
 
+       var claimSession = await sb.auth.getSession();
+      var claimUserId = claimSession?.data?.session?.user?.id;
+
+      if (claimUserId) {
+        await sb
+          .from("profiles")
+          .update({ onboarding_completed: true })
+          .eq("id", claimUserId);
+      }
+      
       message(
         "Done. Taking you to your dashboard...",
         "ok"
