@@ -7,38 +7,30 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error("Missing Supabase environment variables.");
 }
 
-/*
-  Cross-subdomain session storage.
 
-  The auth page is on www.runambiz.com, this app is on
-  app.runambiz.com. Different origins, so localStorage
-  can't be shared. Cookies scoped to .runambiz.com can.
-
-  This adapter must stay byte-for-byte compatible with the
-  one in auth.js on the marketing site — same domain, same
-  encoding, same remember-me key. If they drift, the session
-  written there won't be found here and you get a redirect
-  loop.
-*/
 
 const COOKIE_DOMAIN = ".runambiz.com";
 const REMEMBER_KEY = "runambiz-remember";
 const ONE_YEAR = 31536000;
-
+const CHUNK_SIZE = 3000;
+ 
+ 
 function writeCookie(key, value, maxAge) {
+ 
   let cookie =
     `${key}=${encodeURIComponent(value)}` +
     `; domain=${COOKIE_DOMAIN}` +
     `; path=/` +
     `; secure; samesite=lax`;
-
+ 
   if (typeof maxAge === "number") {
     cookie += `; max-age=${maxAge}`;
   }
-
+ 
   document.cookie = cookie;
 }
-
+ 
+ 
 function readCookie(key) {
   const safe = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const match = document.cookie.match(
@@ -46,19 +38,71 @@ function readCookie(key) {
   );
   return match ? decodeURIComponent(match[2]) : null;
 }
-
+ 
+ 
+function clearCookie(key) {
+ 
+  writeCookie(key, "", 0);
+ 
+  for (let i = 0; i < 20; i++) {
+    if (readCookie(`${key}.${i}`) === null) break;
+    writeCookie(`${key}.${i}`, "", 0);
+  }
+ 
+}
+ 
+ 
 const authStorage = {
+ 
   getItem(key) {
-    return readCookie(key);
+ 
+    const single = readCookie(key);
+    if (single !== null && single !== "") {
+      return single;
+    }
+ 
+    let out = "";
+ 
+    for (let i = 0; i < 20; i++) {
+      const part = readCookie(`${key}.${i}`);
+      if (part === null) break;
+      out += part;
+    }
+ 
+    return out || null;
+ 
   },
+ 
   setItem(key, value) {
+ 
     const remember = readCookie(REMEMBER_KEY) !== "false";
-    writeCookie(key, value, remember ? ONE_YEAR : undefined);
+    const age = remember ? ONE_YEAR : undefined;
+ 
+    clearCookie(key);
+ 
+    if (value.length <= CHUNK_SIZE) {
+      writeCookie(key, value, age);
+      return;
+    }
+ 
+    for (let i = 0; i * CHUNK_SIZE < value.length; i++) {
+      writeCookie(
+        `${key}.${i}`,
+        value.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE),
+        age
+      );
+    }
+ 
   },
+ 
   removeItem(key) {
-    writeCookie(key, "", 0);
-  },
+    clearCookie(key);
+  }
+ 
 };
+ 
+
+
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
