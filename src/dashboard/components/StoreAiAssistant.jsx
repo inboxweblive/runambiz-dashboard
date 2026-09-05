@@ -1359,29 +1359,36 @@ const [progressOpen, setProgressOpen] = useState(false);
           <>
 
 
-            <div className={
-  progressOpen
-    ? "store-ai-progress-panel is-open"
-    : "store-ai-progress-panel"
-}>
+                <div className={
+              progressOpen
+                ? "store-ai-progress-panel is-open"
+                : "store-ai-progress-panel"
+            }>
 
-  <button
-    type="button"
-    className="store-ai-progress-heading"
-    aria-expanded={progressOpen}
-    onClick={() => setProgressOpen(open => !open)}
-  >
-    <div>
-      <span>COMPLETE STORE SETUP</span>
-      <strong>{percent}% ready</strong>
-    </div>
 
-    <small>{done}/{total}</small>
+              <button
+                type="button"
+                className="store-ai-progress-heading"
+                aria-expanded={progressOpen}
+                onClick={() => setProgressOpen(open => !open)}
+              >
 
-    <ChevronDown size={16} className="store-ai-progress-chevron" />
-  </button>
+                <div>
+                  <span>COMPLETE STORE SETUP</span>
+                  <strong>{progress}% ready</strong>
+                </div>
 
-    
+                <small>
+                  {completedCount}/{checklistItems.length}
+                </small>
+
+                <ChevronDown
+                  size={16}
+                  className="store-ai-progress-chevron"
+                />
+
+              </button>
+                  
 
               <div className="store-ai-progress-bar">
 
