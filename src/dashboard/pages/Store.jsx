@@ -69,7 +69,7 @@ const fieldStyle = {
   background: "var(--field-bg)",
   color: "var(--ink)",
   fontFamily: "inherit",
-  fontSize: "12.5px",
+  fontSize: "16px",
   fontWeight: 500,
   letterSpacing: "-.006em",
   transition: "border-color .24s var(--ease), box-shadow .24s ease, background .24s ease"
