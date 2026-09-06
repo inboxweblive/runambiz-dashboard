@@ -165,6 +165,12 @@ body {
   font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
 }
 
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 /* =========================================================
    3  TYPOGRAPHY
 ========================================================= */
