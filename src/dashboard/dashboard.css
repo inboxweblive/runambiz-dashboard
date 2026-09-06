@@ -21368,6 +21368,37 @@ svg:last-child {
   filter: brightness(1.08);
 }
 
+@media (max-width: 820px) {
+
+  /* dvh tracks the visible area as the keyboard opens and
+     closes; vh does not, which is why the input ends up
+     underneath it. */
+
+  .store-ai-overlay,
+  .store-ai-panel {
+    height: 100dvh;
+    max-height: 100dvh;
+  }
+
+  /* The composer stays pinned above the keyboard rather
+     than scrolling away with the messages. */
+
+  .store-ai-input {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    background: var(--paper);
+  }
+
+  /* 16px stops iOS zooming the page on focus, which is the
+     other half of why typing feels broken. */
+
+  .store-ai-input textarea {
+    font-size: 16px;
+  }
+
+}
 /* Clear the mobile tab bar so it doesn't sit on top of it. */
 @media (max-width: 820px) {
   .dashboard-float-help {
